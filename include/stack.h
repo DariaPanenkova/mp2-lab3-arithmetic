@@ -23,6 +23,7 @@ public:
 	void PutElem(const ValType &el); //добавить элемент в вершину стека 
 	ValType GetElem();              //удалить элемент из стека и вернуть его значение
 	void ExcludeElem();             //удалить элемент
+	ValType CheckElem();
 
 
 };
@@ -103,6 +104,14 @@ void TStack<ValType>::ExcludeElem()
 	if ((*this).StEmpty())
 		throw ("Empty stack");
 	pMem[--Index];
+}
+template <class ValType>
+ValType TStack<ValType>::CheckElem()
+{
+	ValType a=pMem[Index];
+	
+	return a;
+	
 }
 
 #endif

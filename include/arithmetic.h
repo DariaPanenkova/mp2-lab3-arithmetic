@@ -6,7 +6,16 @@
 
 using namespace std; 
 
-//ѕроверка корректности открывающих и закрывающих скобок
+class Arithmetic
+{
+	char* inputline;  //входна€ строка
+	char* postfixnot;  //постификсна€ запись 
+
+public:
+
+	//bool CheckParenthesis(char* str); 	//ѕроверка корректности открывающих и закрывающих скобок
+	//bool CheckOperator(char *s) ;	//ѕроверка наличи€ операндов между операторами
+
 bool CheckParenthesis(char* str)
 {
 	TStack<int> s(100);
@@ -36,7 +45,6 @@ bool CheckParenthesis(char* str)
 
 }
 
-//ѕроверка наличи€ операндов между операторами
 bool CheckOperator(char *s) 
 {
 	int s_str=strlen(s);
@@ -60,6 +68,77 @@ bool CheckOperator(char *s)
 	return true;
 }
 
+int Priority(char c)
+{
+		if ( c=='(' )
+			return 1;
+		if ( c=='+' || c=='-' )
+			return 2;
+		if ( c=='*' || c=='/' )
+			return 2;
 
+}
+
+bool IsOperation(char c)
+{
+	if ( c=='+' || c=='-' || c=='*' || c=='/')
+		return true;
+	else 
+		return false;
+}
+void GetPostfixNot(char *inputline)
+{
+	TStack<char> oper;
+	int len_s=strlen(inputline);
+	int ind=0;
+
+	for(int i=0; i<len_s; i++)
+		{
+			if( isdigit(inputline[i])||isalpha(inputline[i])) //если число или операнд, добавл€ем в выходную сроку
+				{
+					postfixnot[ind]=inputline[i];
+					ind++;
+					continue; 
+				}
+
+			if ( inputline[i]=='(' )
+				{
+					oper.PutElem( '(');
+					continue;
+				}
+
+			if( IsOperation(inputline[i]))
+				{
+					int p=Priority((inputline[i]));
+
+					
+					if( (p > Priority(oper.CheckElem()) ) || oper.StEmpty() )
+						oper.PutElem(inputline[i]);
+					else 
+						{
+							while (p <= Priority(oper.CheckElem()))
+								{
+									postfixnot[ind]=oper.GetElem();
+									ind++;
+								}
+							if( (p > Priority(oper.CheckElem()) ) || oper.StEmpty() )
+								oper.PutElem(inputline[i]);
+								
+						}
+				}
+
+			if( inputline[i]==')')
+				while ( oper.CheckElem()!='(' )
+					{
+									postfixnot[ind]=oper.GetElem();
+									ind++;
+					}
+
+
+			
+		}
+		
+}
+};
 
 #endif
