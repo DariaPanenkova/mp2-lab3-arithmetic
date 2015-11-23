@@ -46,9 +46,6 @@ TEST(TStack,can_chek_stack_empty_true)
 {
 	TStack<int> s(4);
 
-
-
-
 	EXPECT_TRUE(s.StEmpty());
 }
 TEST(TStack,can_chek_stack_empty_false)

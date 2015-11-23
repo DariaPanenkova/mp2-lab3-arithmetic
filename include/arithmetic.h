@@ -8,26 +8,32 @@ using namespace std;
 
 class Arithmetic
 {
-	char* inputline;  //входная строка
-	char* postfixnot;  //постификсная запись 
+	string inputline;  //входная строка
+	string postfixnot;  //постификсная запись 
 
 public:
+
+Arithmetic(string s)
+{
+		inputline=s;
+}
+
 
 	//bool CheckParenthesis(char* str); 	//Проверка корректности открывающих и закрывающих скобок
 	//bool CheckOperator(char *s) ;	//Проверка наличия операндов между операторами
 
-bool CheckParenthesis(char* str)
+bool CheckParenthesis()
 {
 	TStack<int> s(100);
 
-	int s_str=strlen(str);
+	int s_str=inputline.size();
 
 	for(int i=0; i < s_str; i++)
 	{
-		if(str[i]=='(')
+		if(inputline[i]=='(')
 			s.PutElem(i);
 		else 
-			if(str[i]==')')
+			if(inputline[i]==')')
 				if (s.StEmpty())
 					throw("excess close parenthesis");
 				else
@@ -45,18 +51,18 @@ bool CheckParenthesis(char* str)
 
 }
 
-bool CheckOperator(char *s) 
+bool CheckOperator() 
 {
-	int s_str=strlen(s);
+	int s_str=inputline.size();
 
 	char operators[]="+-*/";
 
 	for(int i = 0; i < s_str-1;i++)
 	{
 		for(int j = 0; j < 4; j++)
-			if ( s[i]==operators[j] )
+			if ( inputline[i]==operators[j] )
 				for(int k = 0; k < 4; k++)
-					if (s[i+1]==operators[k])
+					if (inputline[i+1]==operators[k])
 					{
 						cout<<"No operand between operators"<<endl;
 						return false;
@@ -86,15 +92,39 @@ bool IsOperation(char c)
 	else 
 		return false;
 }
-void GetPostfixNot(char *inputline)
+
+bool IsDigit(char c)
+{
+	if( isdigit(c) || (c=='.') )
+		return true;
+	else
+		return false;
+
+}
+void GetPostfixNot()
 {
 	TStack<char> oper;
-	int len_s=strlen(inputline);
+	int len_s=inputline.size();
 	int ind=0;
 
 	for(int i=0; i<len_s; i++)
 		{
-			if( isdigit(inputline[i])||isalpha(inputline[i])) //если число или операнд, добавляем в выходную сроку
+			if( IsDigit(inputline[i])) 
+				{
+					postfixnot[ind]=inputline[i];
+					ind++;
+					while ( IsDigit(inputline[i+1]))
+						{
+							postfixnot[ind]=inputline[i];
+							ind++;
+							i++;
+						}
+					postfixnot[ind]=' ';
+					ind++;
+					continue; 
+				}
+
+			if(isalpha(inputline[i])) 
 				{
 					postfixnot[ind]=inputline[i];
 					ind++;
@@ -139,6 +169,12 @@ void GetPostfixNot(char *inputline)
 		}
 		
 }
+
+string GetPostNot()
+{
+		return postfixnot;
+}
+
 };
 
 #endif
