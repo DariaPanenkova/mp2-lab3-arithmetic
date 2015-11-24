@@ -16,6 +16,7 @@ public:
 Arithmetic(string s)
 {
 		inputline=s;
+
 }
 
 
@@ -81,7 +82,7 @@ int Priority(char c)
 		if ( c=='+' || c=='-' )
 			return 2;
 		if ( c=='*' || c=='/' )
-			return 2;
+			return 3;
 
 }
 
@@ -105,35 +106,32 @@ void GetPostfixNot()
 {
 	TStack<char> oper;
 	int len_s=inputline.size();
-	int ind=0;
+	postfixnot = "";
 
-	for(int i=0; i<len_s; i++)
+	for(int i = 0; i < len_s; i++)
 		{
-			if( IsDigit(inputline[i])) 
-				{
-					postfixnot[ind]=inputline[i];
-					ind++;
-					while ( IsDigit(inputline[i+1]))
+			if( IsDigit(inputline[i])) {
+				
+					postfixnot+=inputline[i];
+					while ( IsDigit(inputline[i+1]) )
 						{
-							postfixnot[ind]=inputline[i];
-							ind++;
 							i++;
+							postfixnot+=inputline[i];
+							
 						}
-					postfixnot[ind]=' ';
-					ind++;
+					postfixnot+=' ';
 					continue; 
 				}
 
 			if(isalpha(inputline[i])) 
 				{
-					postfixnot[ind]=inputline[i];
-					ind++;
+					postfixnot+=inputline[i];
 					continue; 
 				}
 
 			if ( inputline[i]=='(' )
 				{
-					oper.PutElem( '(');
+					oper.PutElem( '(' );
 					continue;
 				}
 
@@ -148,8 +146,7 @@ void GetPostfixNot()
 						{
 							while (p <= Priority(oper.CheckElem()))
 								{
-									postfixnot[ind]=oper.GetElem();
-									ind++;
+									postfixnot+=oper.GetElem();
 								}
 							if( (p > Priority(oper.CheckElem()) ) || oper.StEmpty() )
 								oper.PutElem(inputline[i]);
@@ -158,16 +155,17 @@ void GetPostfixNot()
 				}
 
 			if( inputline[i]==')')
-				while ( oper.CheckElem()!='(' )
+				while ( oper.CheckElem() != '(' )
 					{
-									postfixnot[ind]=oper.GetElem();
-									ind++;
+									postfixnot+=oper.GetElem();
+									
 					}
-
-
-			
+	
 		}
-		
+	while ( !(oper.StEmpty())  && (oper.CheckElem() != '(' ))  //
+		{
+			postfixnot+=oper.GetElem();
+	    }
 }
 
 string GetPostNot()
