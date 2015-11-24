@@ -35,10 +35,10 @@ TStack<ValType>::TStack()
 	pMem = new ValType[Size];
 	Index = -1;
 
-	for (int i = 0; i < Size; i++)
+	/*for (int i = 0; i < Size; i++)
 	{
 		pMem[i] = 0;
-	}
+	}*/
 }
 
 template <class ValType>
@@ -49,9 +49,9 @@ TStack<ValType>::TStack(int n)
 	Size=n;
 	pMem= new ValType[Size];
 	Index = -1;
-	for (int i = 0; i < Size; i++) {
+	/*for (int i = 0; i < Size; i++) {
 		pMem[i] = 0;
-	}
+	}*/
 }
 
 template <class ValType>

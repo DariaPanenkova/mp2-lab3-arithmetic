@@ -11,6 +11,8 @@ class Arithmetic
 	string inputline;  //входная строка
 	string postfixnot;  //постификсная запись 
 
+	TStack<string> st_post;
+
 public:
 
 Arithmetic(string s)
@@ -126,6 +128,8 @@ void GetPostfixNot()
 			if(isalpha(inputline[i])) 
 				{
 					postfixnot+=inputline[i];
+					postfixnot+=' ';
+					
 					continue; 
 				}
 
@@ -147,6 +151,8 @@ void GetPostfixNot()
 							while (p <= Priority(oper.CheckElem()))
 								{
 									postfixnot+=oper.GetElem();
+									postfixnot+=' ';
+
 								}
 							if( (p > Priority(oper.CheckElem()) ) || oper.StEmpty() )
 								oper.PutElem(inputline[i]);
@@ -157,7 +163,8 @@ void GetPostfixNot()
 			if( inputline[i]==')')
 				while ( oper.CheckElem() != '(' )
 					{
-									postfixnot+=oper.GetElem();
+						postfixnot+=oper.GetElem();
+						postfixnot+=' ';
 									
 					}
 	
@@ -165,6 +172,7 @@ void GetPostfixNot()
 	while ( !(oper.StEmpty())  && (oper.CheckElem() != '(' ))  //
 		{
 			postfixnot+=oper.GetElem();
+			postfixnot+=' ';
 	    }
 }
 
@@ -172,6 +180,42 @@ string GetPostNot()
 {
 		return postfixnot;
 }
+
+
+//стек для вычисления польской записи 
+void PostfixSt()
+{
+	TStack<string> inv_st_post;
+	for( int i=0; i < postfixnot.size()-1; i++)
+		{
+			if (IsDigit(postfixnot[i])) 
+				{
+					string digit;
+					while ( postfixnot[i]!= ' ' )
+						{
+							digit += postfixnot[i];
+							i++;
+						}
+					inv_st_post.PutElem(digit);
+					continue;
+				}
+		
+			if ( postfixnot[i]== ' ' )
+				i++;
+
+			else
+			{
+				string str;
+				str +=postfixnot[i];
+				inv_st_post.PutElem(str);
+			}
+		}
+	while( !(inv_st_post.StEmpty()) )
+		st_post.PutElem(inv_st_post.GetElem());
+}
+
+
+
 
 };
 

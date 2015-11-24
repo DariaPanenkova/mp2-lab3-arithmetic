@@ -22,7 +22,7 @@ TEST(Arithmetic, check_postfix_not)
 	string str="(2+3.4)*a";
 	Arithmetic a(str);
 
-	string post="2 3.4 +a*";
+	string post="2 3.4 + a * ";
 
 	a.GetPostfixNot();
 	str=a.GetPostNot();
